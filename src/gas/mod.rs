@@ -11,11 +11,11 @@ use crate::std::cmp::min;
 use crate::std::mem;
 use crate::std::vec::Vec;
 
-use parity_wasm::{elements, elements::ValueType, builder};
+use tetsy_wasm::{elements, elements::ValueType, builder};
 use crate::rules::Rules;
 
 pub fn update_call_index(instructions: &mut elements::Instructions, inserted_index: u32) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let Call(call_index) = instruction {
 			if *call_index >= inserted_index { *call_index += 1}
@@ -223,7 +223,7 @@ impl Counter {
 }
 
 fn inject_grow_counter(instructions: &mut elements::Instructions, grow_counter_func: u32) -> usize {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	let mut counter = 0;
 	for instruction in instructions.elements_mut() {
 		if let GrowMemory(_) = *instruction {
@@ -239,7 +239,7 @@ fn add_grow_counter<R: Rules>(
 	rules: &R,
 	gas_func: u32
 ) -> elements::Module {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	use crate::rules::MemoryGrowCost;
 
 	let cost = match rules.memory_grow_cost() {
@@ -273,7 +273,7 @@ pub(crate) fn determine_metered_blocks<R: Rules>(
 	instructions: &elements::Instructions,
 	rules: &R,
 ) -> Result<Vec<MeteredBlock>, ()> {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 
 	let mut counter = Counter::new();
 
@@ -360,7 +360,7 @@ fn insert_metering_calls(
 )
 	-> Result<(), ()>
 {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 
 	// To do this in linear time, construct a new vector of instructions, copying over old
 	// instructions one by one and injecting new ones as required.
@@ -515,8 +515,8 @@ mod tests {
 
 	extern crate wabt;
 
-	use parity_wasm::{serialize, builder, elements};
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::{serialize, builder, elements};
+	use tetsy_wasm::elements::Instruction::*;
 	use super::*;
 	use crate::rules;
 

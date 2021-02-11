@@ -4,7 +4,7 @@ use crate::std::collections::{HashSet as Set};
 use crate::std::collections::{BTreeSet as Set};
 use crate::std::vec::Vec;
 
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Copy, Clone, Debug)]
 pub enum Symbol {
@@ -48,7 +48,7 @@ pub fn resolve_global(module: &elements::Module, index: u32) -> Symbol {
 }
 
 pub fn push_code_symbols(module: &elements::Module, instructions: &[elements::Instruction], dest: &mut Vec<Symbol>) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 
 	for instruction in instructions {
 		match instruction {

@@ -2,11 +2,11 @@ use crate::std::fmt;
 use crate::std::vec::Vec;
 use crate::std::borrow::ToOwned;
 
-use parity_wasm::elements::{
+use tetsy_wasm::elements::{
 	self, Section, DataSection, Instruction, DataSegment, InitExpr, Internal, External,
 	ImportCountType,
 };
-use parity_wasm::builder;
+use tetsy_wasm::builder;
 use super::TargetRuntime;
 use super::gas::update_call_index;
 
@@ -41,7 +41,7 @@ impl fmt::Display for Error {
 	}
 }
 
-/// If a pwasm module has an exported function matching "create" symbol we want to pack it into "constructor".
+/// If a twasm module has an exported function matching "create" symbol we want to pack it into "constructor".
 /// `raw_module` is the actual contract code
 /// `ctor_module` is the constructor which should return `raw_module`
 pub fn pack_instance(raw_module: Vec<u8>, mut ctor_module: elements::Module, target: &TargetRuntime) -> Result<elements::Module, Error> {
@@ -165,7 +165,7 @@ pub fn pack_instance(raw_module: Vec<u8>, mut ctor_module: elements::Module, tar
 				let init_expr = entry
 					.offset()
 					.as_ref()
-					.expect("parity-wasm is compiled without bulk-memory operations")
+					.expect("tetsy-wasm is compiled without bulk-memory operations")
 					.code();
 				if let Instruction::I32Const(offst) = init_expr[0] {
 					let len = entry.value().len() as i32;
@@ -218,9 +218,9 @@ pub fn pack_instance(raw_module: Vec<u8>, mut ctor_module: elements::Module, tar
 
 #[cfg(test)]
 mod test {
-	extern crate parity_wasm;
+	extern crate tetsy_wasm;
 
-	use parity_wasm::builder;
+	use tetsy_wasm::builder;
 	use super::*;
 	use super::super::optimize;
 
@@ -229,7 +229,7 @@ mod test {
 		optimize(&mut module, vec![target_runtime.symbols().call]).expect("Optimizer to finish without errors");
 		optimize(&mut ctor_module, vec![target_runtime.symbols().create]).expect("Optimizer to finish without errors");
 
-		let raw_module = parity_wasm::serialize(module).unwrap();
+		let raw_module = tetsy_wasm::serialize(module).unwrap();
 		let ctor_module = pack_instance(raw_module.clone(), ctor_module, target_runtime).expect("Packing failed");
 
 		let data_section = ctor_module.data_section().expect("Packed module has to have a data section");
@@ -239,7 +239,7 @@ mod test {
 
 	#[test]
 	fn no_data_section() {
-		let target_runtime = TargetRuntime::pwasm();
+		let target_runtime = TargetRuntime::twasm();
 
 		test_packer(builder::module()
 			.import()
@@ -288,7 +288,7 @@ mod test {
 
 	#[test]
 	fn with_data_section() {
-		let target_runtime = TargetRuntime::pwasm();
+		let target_runtime = TargetRuntime::twasm();
 
 		test_packer(builder::module()
 			.import()

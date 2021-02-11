@@ -5,7 +5,7 @@
 extern crate alloc;
 
 extern crate byteorder;
-extern crate parity_wasm;
+extern crate tetsy_wasm;
 #[macro_use] extern crate log;
 #[cfg(test)] #[macro_use] extern crate indoc;
 #[cfg(test)] extern crate rand;
@@ -42,7 +42,7 @@ pub use graph::{Module, parse as graph_parse, generate as graph_generate};
 pub use ref_list::{RefList, Entry, EntryRef, DeleteTransaction};
 #[cfg(feature = "std")]
 pub use export_globals::export_mutable_globals;
-pub use parity_wasm::elements::Instruction;
+pub use tetsy_wasm::elements::Instruction;
 
 pub struct TargetSymbols {
 	pub create: &'static str,
@@ -51,22 +51,22 @@ pub struct TargetSymbols {
 }
 
 pub enum TargetRuntime {
-	Substrate(TargetSymbols),
-	PWasm(TargetSymbols),
+	Tetcore(TargetSymbols),
+	TWasm(TargetSymbols),
 }
 
 impl TargetRuntime {
 
-	pub fn substrate() -> TargetRuntime {
-		TargetRuntime::Substrate(TargetSymbols {
+	pub fn tetcore() -> TargetRuntime {
+		TargetRuntime::Tetcore(TargetSymbols {
 			create: "deploy",
 			call: "call",
 			ret: "ext_return",
 		})
 	}
 
-	pub fn pwasm() -> TargetRuntime {
-		TargetRuntime::PWasm(TargetSymbols {
+	pub fn twasm() -> TargetRuntime {
+		TargetRuntime::TWasm(TargetSymbols {
 			create: "deploy",
 			call: "call",
 			ret: "ret",
@@ -75,8 +75,8 @@ impl TargetRuntime {
 
 	pub fn symbols(&self) -> &TargetSymbols {
 		match self {
-			TargetRuntime::Substrate(s) => s,
-			TargetRuntime::PWasm(s) => s,
+			TargetRuntime::Tetcore(s) => s,
+			TargetRuntime::TWasm(s) => s,
 		}
 	}
 

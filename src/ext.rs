@@ -2,7 +2,7 @@ use crate::std::string::String;
 use crate::std::vec::Vec;
 use crate::std::borrow::ToOwned;
 
-use parity_wasm::{elements, builder};
+use tetsy_wasm::{elements, builder};
 use byteorder::{LittleEndian, ByteOrder};
 
 use crate::optimizer::{import_section, export_section};
@@ -10,7 +10,7 @@ use crate::optimizer::{import_section, export_section};
 type Insertion = (usize, u32, u32, String);
 
 pub fn update_call_index(instructions: &mut elements::Instructions, original_imports: usize, inserts: &[Insertion]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let Call(call_index) = instruction {
 			if let Some(pos) = inserts.iter().position(|x| x.1 == *call_index) {
@@ -102,7 +102,7 @@ pub fn shrink_unknown_stack(
 					if *data_segment
 						.offset()
 						.as_ref()
-						.expect("parity-wasm is compiled without bulk-memory operations")
+						.expect("tetsy-wasm is compiled without bulk-memory operations")
 						.code() == [elements::Instruction::I32Const(4), elements::Instruction::End]
 					{
 						assert_eq!(data_segment.value().len(), 4);

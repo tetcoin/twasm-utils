@@ -10,7 +10,7 @@ use super::{
 	TargetRuntime,
 	std::fmt,
 };
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 #[derive(Debug)]
 pub enum Error {
@@ -105,15 +105,15 @@ pub fn build(
 
 	if !skip_optimization {
 		let preserved_exports = match target_runtime {
-			TargetRuntime::PWasm(_) => vec![target_runtime.symbols().create],
-			TargetRuntime::Substrate(_) => vec![target_runtime.symbols().call, target_runtime.symbols().create],
+			TargetRuntime::TWasm(_) => vec![target_runtime.symbols().create],
+			TargetRuntime::Tetcore(_) => vec![target_runtime.symbols().call, target_runtime.symbols().create],
 		};
 		optimize(&mut ctor_module, preserved_exports)?;
 	}
 
-	if let TargetRuntime::PWasm(_) = target_runtime {
+	if let TargetRuntime::TWasm(_) = target_runtime {
 		ctor_module = pack_instance(
-			parity_wasm::serialize(module.clone()).map_err(Error::Encoding)?,
+			tetsy_wasm::serialize(module.clone()).map_err(Error::Encoding)?,
 			ctor_module.clone(),
 			target_runtime,
 		)?;

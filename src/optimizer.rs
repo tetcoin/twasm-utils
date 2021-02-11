@@ -5,7 +5,7 @@ use crate::std::collections::{BTreeSet as Set};
 use crate::std::vec::Vec;
 use crate::std::mem;
 
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 use crate::symbols::{Symbol, expand_symbols, push_code_symbols, resolve_function};
 
@@ -51,7 +51,7 @@ pub fn optimize(
 				segment
 					.offset()
 					.as_ref()
-					.expect("parity-wasm is compiled without bulk-memory operations")
+					.expect("tetsy-wasm is compiled without bulk-memory operations")
 					.code(),
 				&mut init_symbols,
 			);
@@ -64,7 +64,7 @@ pub fn optimize(
 				segment
 					.offset()
 					.as_ref()
-					.expect("parity-wasm is compiled without bulk-memory operations")
+					.expect("tetsy-wasm is compiled without bulk-memory operations")
 					.code(),
 				&mut init_symbols
 			);
@@ -277,7 +277,7 @@ pub fn optimize(
 							segment
 								.offset_mut()
 								.as_mut()
-								.expect("parity-wasm is compiled without bulk-memory operations")
+								.expect("tetsy-wasm is compiled without bulk-memory operations")
 								.code_mut(),
 							&eliminated_globals,
 						)
@@ -289,7 +289,7 @@ pub fn optimize(
 							segment
 							.offset_mut()
 							.as_mut()
-							.expect("parity-wasm is compiled without bulk-memory operations")
+							.expect("tetsy-wasm is compiled without bulk-memory operations")
 							.code_mut(),
 							&eliminated_globals
 						);
@@ -335,7 +335,7 @@ pub fn optimize(
 
 
 pub fn update_call_index(instructions: &mut elements::Instructions, eliminated_indices: &[usize]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let Call(call_index) = instruction {
 			let totalle = eliminated_indices.iter().take_while(|i| (**i as u32) < *call_index).count();
@@ -347,7 +347,7 @@ pub fn update_call_index(instructions: &mut elements::Instructions, eliminated_i
 
 /// Updates global references considering the _ordered_ list of eliminated indices
 pub fn update_global_index(instructions: &mut Vec<elements::Instruction>, eliminated_indices: &[usize]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.iter_mut() {
 		match instruction {
 			GetGlobal(index) | SetGlobal(index) => {
@@ -362,7 +362,7 @@ pub fn update_global_index(instructions: &mut Vec<elements::Instruction>, elimin
 
 /// Updates global references considering the _ordered_ list of eliminated indices
 pub fn update_type_index(instructions: &mut elements::Instructions, eliminated_indices: &[usize]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let CallIndirect(call_index, _) = instruction {
 			let totalle = eliminated_indices.iter().take_while(|i| (**i as u32) < *call_index).count();
@@ -429,7 +429,7 @@ pub fn type_section(module: &mut elements::Module) -> Option<&mut elements::Type
 #[cfg(test)]
 mod tests {
 
-	use parity_wasm::{builder, elements};
+	use tetsy_wasm::{builder, elements};
 	use super::*;
 
 	/// @spec 0

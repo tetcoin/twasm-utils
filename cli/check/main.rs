@@ -1,10 +1,10 @@
-extern crate parity_wasm;
-extern crate pwasm_utils as utils;
-use pwasm_utils::logger;
+extern crate tetsy_wasm;
+extern crate twasm_utils as utils;
+use twasm_utils::logger;
 extern crate clap;
 
 use clap::{App, Arg};
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 fn fail(msg: &str) -> ! {
 	eprintln!("{}", msg);
@@ -51,7 +51,7 @@ fn main() {
 
 	let input = matches.value_of("input").expect("is required; qed");
 
-	let module = parity_wasm::deserialize_file(&input).expect("Input module deserialization failed");
+	let module = tetsy_wasm::deserialize_file(&input).expect("Input module deserialization failed");
 
 	for section in module.sections() {
 		match section {
@@ -75,18 +75,18 @@ fn main() {
 							let max = if let Some(max) = m.limits().maximum() {
 								max
 							} else {
-								fail("There is a limit on memory in Parity runtime, and this program does not limit memory");
+								fail("There is a limit on memory in Tetsy runtime, and this program does not limit memory");
 							};
 
 							if max > 16 {
 								fail(&format!(
-									"Parity runtime has 1Mb limit (16 pages) on max contract memory, this program speicifies {}",
+									"Tetsy runtime has 1Mb limit (16 pages) on max contract memory, this program speicifies {}",
 									max
 								));
 							}
 						},
 						elements::External::Global(_) => {
-							fail("Parity runtime does not provide any globals")
+							fail("Tetsy runtime does not provide any globals")
 						},
 						_ => { continue; }
 					}
