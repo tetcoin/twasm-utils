@@ -1,6 +1,6 @@
-extern crate pwasm_utils as utils;
-extern crate parity_wasm;
-extern crate pwasm_utils_cli as logger;
+extern crate twasm_utils as utils;
+extern crate tetsy_wasm;
+extern crate twasm_utils_cli as logger;
 
 use std::env;
 use utils::stack_height;
@@ -18,11 +18,11 @@ fn main() {
 	let output_file = &args[2];
 
 	// Loading module
-	let module = parity_wasm::deserialize_file(&input_file).expect("Module deserialization to succeed");
+	let module = tetsy_wasm::deserialize_file(&input_file).expect("Module deserialization to succeed");
 
 	let result = stack_height::inject_limiter(
 		module, 1024
 	).expect("Failed to inject stack height counter");
 
-	parity_wasm::serialize_to_file(&output_file, result).expect("Module serialization to succeed")
+	tetsy_wasm::serialize_to_file(&output_file, result).expect("Module serialization to succeed")
 }

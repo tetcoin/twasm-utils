@@ -1,21 +1,21 @@
 # wasm-utils
 
-[![Build Status](https://travis-ci.org/paritytech/wasm-utils.svg?branch=master)](https://travis-ci.org/paritytech/wasm-utils)
+[![Build Status](https://travis-ci.org/tetcoin/wasm-utils.svg?branch=master)](https://travis-ci.org/tetcoin/wasm-utils)
 
-Collection of WASM utilities used in Parity and WASM contract development
+Collection of WASM utilities used in Tetsy and WASM contract development
 
 ## Build tools for cargo
 
 Easiest way to use is to install via `cargo install`:
 
 ```
-cargo install pwasm-utils-cli --bin wasm-build
+cargo install twasm-utils-cli --bin wasm-build
 ```
 
 ## Symbols pruning (wasm-prune)
 
 ```
-cargo install pwasm-utils-cli --bin wasm-prune
+cargo install twasm-utils-cli --bin wasm-prune
 wasm-prune <input_wasm_binary.wasm> <output_wasm_binary.wasm>
 ```
 
@@ -23,16 +23,16 @@ This will optimize WASM symbols tree to leave only those elements that are used 
 
 ## Gas counter (wasm-gas)
 
-For development puposes, raw WASM contract can be injected with gas counters (the same way as it done by Parity runtime when running contracts)
+For development puposes, raw WASM contract can be injected with gas counters (the same way as it done by Tetsy runtime when running contracts)
 
 ```
-cargo install pwasm-utils-cli --bin wasm-gas
+cargo install twasm-utils-cli --bin wasm-gas
 wasm-gas <input_wasm_binary.wasm> <output_wasm_binary.wasm>
 ```
 
 ## Externalization (wasm-ext)
 
-Parity WASM runtime provides some library functions that can be commonly found in libc. WASM binary size can be reduced and performance may be improved if these functions are used. This utility scans for invocations of the following functions inside the WASM binary:
+Tetsy WASM runtime provides some library functions that can be commonly found in libc. WASM binary size can be reduced and performance may be improved if these functions are used. This utility scans for invocations of the following functions inside the WASM binary:
 - `_malloc`,
 - `_free`,
 - `_memcpy`,
@@ -42,7 +42,7 @@ Parity WASM runtime provides some library functions that can be commonly found i
 And then substitutes them with invocations of the imported ones. Should be run before `wasm-opt` for better results.
 
 ```
-cargo install pwasm-utils-cli --bin wasm-ext
+cargo install twasm-utils-cli --bin wasm-ext
 wasm-ext <input_wasm_binary.wasm> <output_wasm_binary.wasm>
 ```
 

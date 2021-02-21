@@ -1,10 +1,10 @@
 //! Experimental build tool for cargo
 
 extern crate glob;
-extern crate pwasm_utils as utils;
+extern crate twasm_utils as utils;
 extern crate clap;
-extern crate parity_wasm;
-extern crate pwasm_utils_cli as logger;
+extern crate tetsy_wasm;
+extern crate twasm_utils_cli as logger;
 
 mod source;
 
@@ -12,7 +12,7 @@ use std::{fs, io};
 use std::path::PathBuf;
 
 use clap::{App, Arg};
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 use utils::{build, BuildError, SourceTarget, TargetRuntime};
 
 #[derive(Debug)]
@@ -142,7 +142,7 @@ fn do_main() -> Result<(), Error> {
 
 	let path = wasm_path(&source_input);
 
-	let module = parity_wasm::deserialize_file(&path)
+	let module = tetsy_wasm::deserialize_file(&path)
 		.map_err(|e| Error::Decoding(e, path.to_string()))?;
 
 	let runtime_type_version = if let (Some(runtime_type), Some(runtime_version))
@@ -183,16 +183,16 @@ fn do_main() -> Result<(), Error> {
 	).map_err(Error::Build)?;
 
 	if let Some(save_raw_path) = matches.value_of("save_raw") {
-		parity_wasm::serialize_to_file(save_raw_path, module.clone()).map_err(Error::Encoding)?;
+		tetsy_wasm::serialize_to_file(save_raw_path, module.clone()).map_err(Error::Encoding)?;
 	}
 
 	if let Some(ctor_module) = ctor_module {
-		parity_wasm::serialize_to_file(
+		tetsy_wasm::serialize_to_file(
 			&path,
 			ctor_module,
 		).map_err(Error::Encoding)?;
 	} else {
-		parity_wasm::serialize_to_file(&path, module).map_err(Error::Encoding)?;
+		tetsy_wasm::serialize_to_file(&path, module).map_err(Error::Encoding)?;
 	}
 
 	Ok(())

@@ -1,10 +1,10 @@
 use std::vec::Vec;
 
-use parity_wasm::{elements, builder};
+use tetsy_wasm::{elements, builder};
 use rules;
 
 pub fn update_call_index(instructions: &mut elements::Instructions, inserted_index: u32) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let &mut Call(ref mut call_index) = instruction {
 			if *call_index >= inserted_index { *call_index += 1}
@@ -84,7 +84,7 @@ impl Counter {
 }
 
 fn inject_grow_counter(instructions: &mut elements::Instructions, grow_counter_func: u32) -> usize {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	let mut counter = 0;
 	for instruction in instructions.elements_mut() {
 		if let GrowMemory(_) = *instruction {
@@ -96,7 +96,7 @@ fn inject_grow_counter(instructions: &mut elements::Instructions, grow_counter_f
 }
 
 fn add_grow_counter(module: elements::Module, rules: &rules::Set, gas_func: u32) -> elements::Module {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 
 	let mut b = builder::from_module(module);
 	b.push_function(
@@ -125,7 +125,7 @@ pub fn inject_counter(
 	rules: &rules::Set,
 	gas_func: u32,
 ) -> Result<(), ()> {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 
 	let mut counter = Counter::new();
 
@@ -268,13 +268,13 @@ mod tests {
 
 	extern crate wabt;
 
-	use parity_wasm::{serialize, builder, elements};
+	use tetsy_wasm::{serialize, builder, elements};
 	use super::*;
 	use rules;
 
 	#[test]
 	fn simple_grow() {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		let module = builder::module()
 			.global()
@@ -329,7 +329,7 @@ mod tests {
 
 	#[test]
 	fn grow_no_gas_no_track() {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		let module = builder::module()
 			.global()
@@ -372,7 +372,7 @@ mod tests {
 
 	#[test]
 	fn simple() {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		let module = builder::module()
 			.global()
@@ -408,7 +408,7 @@ mod tests {
 
 	#[test]
 	fn nested() {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		let module = builder::module()
 			.global()
@@ -458,7 +458,7 @@ mod tests {
 
 	#[test]
 	fn ifelse() {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		let module = builder::module()
 			.global()
@@ -516,7 +516,7 @@ mod tests {
 
 	#[test]
 	fn call_index() {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		let module = builder::module()
 			.global()
@@ -579,7 +579,7 @@ mod tests {
 
 	#[test]
 	fn forbidden() {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		let module = builder::module()
 			.global()

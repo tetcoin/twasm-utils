@@ -1,6 +1,6 @@
 use std::vec::Vec;
 
-use parity_wasm::elements::{self, BlockType, Type};
+use tetsy_wasm::elements::{self, BlockType, Type};
 use super::{resolve_func_type, Error};
 
 /// Control stack frame.
@@ -136,7 +136,7 @@ impl Stack {
 
 /// This function expects the function to be validated.
 pub(crate) fn compute(func_idx: u32, module: &elements::Module) -> Result<u32, Error> {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 
 	let func_section = module
 		.function_section()
@@ -427,7 +427,7 @@ pub(crate) fn compute(func_idx: u32, module: &elements::Module) -> Result<u32, E
 #[cfg(test)]
 mod tests {
 	extern crate wabt;
-	use parity_wasm::elements;
+	use tetsy_wasm::elements;
 	use super::*;
 
 	fn parse_wat(source: &str) -> elements::Module {

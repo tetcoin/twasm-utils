@@ -10,8 +10,8 @@ use super::{
 	OptimizerError,
 	TargetRuntime,
 };
-use parity_wasm;
-use parity_wasm::elements;
+use tetsy_wasm;
+use tetsy_wasm::elements;
 
 #[derive(Debug)]
 pub enum Error {
@@ -107,7 +107,7 @@ pub fn build(
 			optimize(&mut ctor_module, vec![target_runtime.create_symbol])?;
 		}
 		let ctor_module = pack_instance(
-			parity_wasm::serialize(module.clone()).map_err(Error::Encoding)?,
+			tetsy_wasm::serialize(module.clone()).map_err(Error::Encoding)?,
 			ctor_module.clone(),
 			target_runtime,
 		)?;

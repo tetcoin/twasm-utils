@@ -1,6 +1,6 @@
-extern crate parity_wasm;
-extern crate pwasm_utils as utils;
-extern crate pwasm_utils_cli as logger;
+extern crate tetsy_wasm;
+extern crate twasm_utils as utils;
+extern crate twasm_utils_cli as logger;
 
 use std::env;
 
@@ -15,9 +15,9 @@ fn main() {
 	}
 
 	let module = utils::externalize(
-		parity_wasm::deserialize_file(&args[1]).expect("Module to deserialize ok"),
+		tetsy_wasm::deserialize_file(&args[1]).expect("Module to deserialize ok"),
 		vec!["_free", "_malloc", "_memcpy", "_memset", "_memmove"],
 	);
 
-	parity_wasm::serialize_to_file(&args[2], module).expect("Module to serialize ok");
+	tetsy_wasm::serialize_to_file(&args[2], module).expect("Module to serialize ok");
 }

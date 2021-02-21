@@ -2,11 +2,11 @@ use std::fmt;
 use std::vec::Vec;
 use std::borrow::ToOwned;
 
-use parity_wasm::elements::{
+use tetsy_wasm::elements::{
     self, Section, DataSection, Instruction, DataSegment, InitExpr, Internal, External,
     ImportCountType,
 };
-use parity_wasm::builder;
+use tetsy_wasm::builder;
 use super::TargetRuntime;
 use super::gas::update_call_index;
 
@@ -213,9 +213,9 @@ pub fn pack_instance(raw_module: Vec<u8>, mut ctor_module: elements::Module, tar
 
 #[cfg(test)]
 mod test {
-    extern crate parity_wasm;
+    extern crate tetsy_wasm;
 
-    use parity_wasm::builder;
+    use tetsy_wasm::builder;
     use super::*;
     use super::super::optimize;
 
@@ -224,7 +224,7 @@ mod test {
         optimize(&mut module, vec![target_runtime.call_symbol]).expect("Optimizer to finish without errors");
         optimize(&mut ctor_module, vec![target_runtime.create_symbol]).expect("Optimizer to finish without errors");
 
-        let raw_module = parity_wasm::serialize(module).unwrap();
+        let raw_module = tetsy_wasm::serialize(module).unwrap();
         let ctor_module = pack_instance(raw_module.clone(), ctor_module, target_runtime).expect("Packing failed");
 
         let data_section = ctor_module.data_section().expect("Packed module has to have a data section");

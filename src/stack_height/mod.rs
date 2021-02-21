@@ -52,13 +52,13 @@
 use std::string::String;
 use std::vec::Vec;
 
-use parity_wasm::elements::{self, Type};
-use parity_wasm::builder;
+use tetsy_wasm::elements::{self, Type};
+use tetsy_wasm::builder;
 
 /// Macro to generate preamble and postamble.
 macro_rules! instrument_call {
 	($callee_idx: expr, $callee_stack_cost: expr, $stack_height_global_idx: expr, $stack_limit: expr) => {{
-		use $crate::parity_wasm::elements::Instruction::*;
+		use $crate::tetsy_wasm::elements::Instruction::*;
 		[
 			// stack_height += stack_cost(F)
 			GetGlobal($stack_height_global_idx),
@@ -271,7 +271,7 @@ fn instrument_function(
 	ctx: &mut Context,
 	instructions: &mut elements::Instructions,
 ) -> Result<(), Error> {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 
 	let mut cursor = 0;
 	loop {
@@ -394,7 +394,7 @@ fn resolve_func_type(
 #[cfg(test)]
 mod tests {
 	extern crate wabt;
-	use parity_wasm::elements;
+	use tetsy_wasm::elements;
 	use super::*;
 
 	fn parse_wat(source: &str) -> elements::Module {

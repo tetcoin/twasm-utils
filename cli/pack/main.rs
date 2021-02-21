@@ -1,6 +1,6 @@
-extern crate parity_wasm;
-extern crate pwasm_utils as utils;
-extern crate pwasm_utils_cli as logger;
+extern crate tetsy_wasm;
+extern crate twasm_utils as utils;
+extern crate twasm_utils_cli as logger;
 extern crate clap;
 
 use clap::{App, Arg};
@@ -24,14 +24,14 @@ fn main() {
     let input = matches.value_of("input").expect("is required; qed");
     let output = matches.value_of("output").expect("is required; qed");
 
-    let module = parity_wasm::deserialize_file(&input).expect("Input module deserialization failed");
+    let module = tetsy_wasm::deserialize_file(&input).expect("Input module deserialization failed");
     let ctor_module = module.clone();
-	let raw_module = parity_wasm::serialize(module).expect("Serialization failed");
+	let raw_module = tetsy_wasm::serialize(module).expect("Serialization failed");
 
     // Invoke packer
     let mut result_module = utils::pack_instance(raw_module, ctor_module, &utils::TargetRuntime::pwasm()).expect("Packing failed");
     // Optimize constructor, since it does not need everything
     utils::optimize(&mut result_module, vec![target_runtime.call_symbol]).expect("Optimization failed");
 
-    parity_wasm::serialize_to_file(&output, result_module).expect("Serialization failed");
+    tetsy_wasm::serialize_to_file(&output, result_module).expect("Serialization failed");
 }

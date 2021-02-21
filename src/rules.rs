@@ -3,7 +3,7 @@ use std::collections::{HashMap as Map};
 #[cfg(not(features = "std"))]
 use std::collections::{BTreeMap as Map};
 
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 pub struct UnknownInstruction;
 
@@ -71,7 +71,7 @@ impl ::std::str::FromStr for InstructionType {
 
 impl InstructionType {
     pub fn op(instruction: &elements::Instruction) -> Self {
-        use parity_wasm::elements::Instruction::*;
+        use tetsy_wasm::elements::Instruction::*;
 
         match *instruction {
             Unreachable => InstructionType::Unreachable,

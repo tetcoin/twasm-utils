@@ -5,7 +5,7 @@
 #[macro_use]
 extern crate alloc;
 
-extern crate parity_wasm;
+extern crate tetsy_wasm;
 extern crate byteorder;
 #[macro_use] extern crate log;
 

@@ -1,4 +1,4 @@
-use parity_wasm::{elements, builder};
+use tetsy_wasm::{elements, builder};
 use self::elements::{ Module, GlobalEntry, External, ExportEntry, GlobalType, ValueType, InitExpr, Instruction, Internal };
 use byteorder::{ LittleEndian, ByteOrder };
 

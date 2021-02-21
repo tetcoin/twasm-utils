@@ -4,7 +4,7 @@ use std::collections::{HashSet as Set};
 use std::collections::{BTreeSet as Set};
 use std::vec::Vec;
 
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 use symbols::{Symbol, expand_symbols, push_code_symbols, resolve_function};
 
@@ -271,7 +271,7 @@ pub fn optimize(
 
 
 pub fn update_call_index(instructions: &mut elements::Instructions, eliminated_indices: &[usize]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let &mut Call(ref mut call_index) = instruction {
 			let totalle = eliminated_indices.iter().take_while(|i| (**i as u32) < *call_index).count();
@@ -283,7 +283,7 @@ pub fn update_call_index(instructions: &mut elements::Instructions, eliminated_i
 
 /// Updates global references considering the _ordered_ list of eliminated indices
 pub fn update_global_index(instructions: &mut Vec<elements::Instruction>, eliminated_indices: &[usize]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.iter_mut() {
 		match instruction {
 			&mut GetGlobal(ref mut index) | &mut SetGlobal(ref mut index) => {
@@ -298,7 +298,7 @@ pub fn update_global_index(instructions: &mut Vec<elements::Instruction>, elimin
 
 /// Updates global references considering the _ordered_ list of eliminated indices
 pub fn update_type_index(instructions: &mut elements::Instructions, eliminated_indices: &[usize]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let &mut CallIndirect(ref mut call_index, _) = instruction {
 			let totalle = eliminated_indices.iter().take_while(|i| (**i as u32) < *call_index).count();
@@ -365,7 +365,7 @@ pub fn type_section<'a>(module: &'a mut elements::Module) -> Option<&'a mut elem
 #[cfg(test)]
 mod tests {
 
-	use parity_wasm::{builder, elements};
+	use tetsy_wasm::{builder, elements};
 	use super::*;
 
 	/// @spec 0

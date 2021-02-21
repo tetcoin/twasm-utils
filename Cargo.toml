@@ -1,14 +1,14 @@
 [package]
-name = "pwasm-utils"
+name = "twasm-utils"
 version = "0.6.1"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Pepyakin <s.pepyakin@gmail.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
-description = "Collection of command-line utilities and corresponding Rust api for producing pwasm-compatible executables"
+description = "Collection of command-line utilities and corresponding Rust api for producing twasm-compatible executables"
 keywords = ["wasm", "webassembly", "pwasm"]
 
 [dependencies]
-parity-wasm = { version = "0.31", default-features = false }
+tetsy-wasm = { version = "0.31", default-features = false }
 log = { version = "0.4", default-features = false }
 byteorder = { version = "1", default-features = false }
 
@@ -19,7 +19,7 @@ diff = "0.1.11"
 
 [features]
 default = ["std"]
-std = ["parity-wasm/std", "log/std", "byteorder/std"]
+std = ["tetsy-wasm/std", "log/std", "byteorder/std"]
 
 [workspace]
 members = [

@@ -2,14 +2,14 @@ use std::string::String;
 use std::vec::Vec;
 use std::borrow::ToOwned;
 
-use parity_wasm::{elements, builder};
+use tetsy_wasm::{elements, builder};
 use optimizer::{import_section, export_section};
 use byteorder::{LittleEndian, ByteOrder};
 
 type Insertion = (usize, u32, u32, String);
 
 pub fn update_call_index(instructions: &mut elements::Instructions, original_imports: usize, inserts: &[Insertion]) {
-	use parity_wasm::elements::Instruction::*;
+	use tetsy_wasm::elements::Instruction::*;
 	for instruction in instructions.elements_mut().iter_mut() {
 		if let &mut Call(ref mut call_index) = instruction {
 			if let Some(pos) = inserts.iter().position(|x| x.1 == *call_index) {

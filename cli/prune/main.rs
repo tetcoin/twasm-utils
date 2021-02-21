@@ -1,6 +1,6 @@
-extern crate parity_wasm;
-extern crate pwasm_utils as utils;
-extern crate pwasm_utils_cli as logger;
+extern crate tetsy_wasm;
+extern crate twasm_utils as utils;
+extern crate twasm_utils_cli as logger;
 extern crate clap;
 
 use clap::{App, Arg};
@@ -36,12 +36,12 @@ fn main() {
     let input = matches.value_of("input").expect("is required; qed");
     let output = matches.value_of("output").expect("is required; qed");
 
-    let mut module = parity_wasm::deserialize_file(&input).unwrap();
+    let mut module = tetsy_wasm::deserialize_file(&input).unwrap();
 
     // Invoke optimizer
     //   Contract is supposed to have only these functions as public api
     //   All other symbols not usable by this list is optimized away
     utils::optimize(&mut module, exports).expect("Optimizer failed");
 
-    parity_wasm::serialize_to_file(&output, module).expect("Serialization failed");
+    tetsy_wasm::serialize_to_file(&output, module).expect("Serialization failed");
 }

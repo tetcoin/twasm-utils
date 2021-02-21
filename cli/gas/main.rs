@@ -1,6 +1,6 @@
-extern crate parity_wasm;
-extern crate pwasm_utils as utils;
-extern crate pwasm_utils_cli as logger;
+extern crate tetsy_wasm;
+extern crate twasm_utils as utils;
+extern crate twasm_utils_cli as logger;
 
 use std::env;
 
@@ -14,11 +14,11 @@ fn main() {
 	}
 
 	// Loading module
-	let module = parity_wasm::deserialize_file(&args[1]).expect("Module deserialization to succeed");
+	let module = tetsy_wasm::deserialize_file(&args[1]).expect("Module deserialization to succeed");
 
 	let result = utils::inject_gas_counter(
 		module, &Default::default()
 	).expect("Failed to inject gas. Some forbidden opcodes?");
 
-	parity_wasm::serialize_to_file(&args[2], result).expect("Module serialization to succeed")
+	tetsy_wasm::serialize_to_file(&args[2], result).expect("Module serialization to succeed")
 }

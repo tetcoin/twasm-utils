@@ -1,5 +1,5 @@
 [package]
-name = "pwasm-utils-cli"
+name = "twasm-utils-cli"
 version = "0.6.0"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Pepyakin <s.pepyakin@gmail.com>"]
 license = "MIT/Apache-2.0"
@@ -38,8 +38,8 @@ name = "wasm-check"
 path = "check/main.rs"
 
 [dependencies]
-parity-wasm = "0.31"
-pwasm-utils = { path = "..", version = "0.6" }
+tetsy-wasm = "0.31.1"
+twasm-utils = { path = "..", version = "0.6.1" }
 glob = "0.2"
 clap = "2.24"
 log = "0.4"
