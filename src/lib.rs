@@ -5,7 +5,7 @@
 extern crate alloc;
 
 extern crate byteorder;
-extern crate parity_wasm;
+extern crate tetsy_wasm;
 #[macro_use] extern crate log;
 #[cfg(test)] #[macro_use] extern crate indoc;
 #[cfg(test)] extern crate rand;
@@ -51,7 +51,7 @@ pub struct TargetSymbols {
 
 pub enum TargetRuntime {
 	Substrate(TargetSymbols),
-	PWasm(TargetSymbols),
+	TWasm(TargetSymbols),
 }
 
 impl TargetRuntime {
@@ -64,8 +64,8 @@ impl TargetRuntime {
 		})
 	}
 
-	pub fn pwasm() -> TargetRuntime {
-		TargetRuntime::PWasm(TargetSymbols {
+	pub fn twasm() -> TargetRuntime {
+		TargetRuntime::TWasm(TargetSymbols {
 			create: "deploy",
 			call: "call",
 			ret: "ret",
@@ -75,7 +75,7 @@ impl TargetRuntime {
 	pub fn symbols(&self) -> &TargetSymbols {
 		match self {
 			TargetRuntime::Substrate(s) => s,
-			TargetRuntime::PWasm(s) => s,
+			TargetRuntime::TWasm(s) => s,
 		}
 	}
 

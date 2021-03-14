@@ -12,7 +12,7 @@ use super::MeteredBlock;
 use crate::rules::Set as RuleSet;
 use crate::rules::Rules;
 use crate::std::vec::Vec;
-use parity_wasm::elements::{FuncBody, Instruction};
+use tetsy_wasm::elements::{FuncBody, Instruction};
 
 #[cfg(features = "std")]
 use crate::std::collections::HashMap as Map;
@@ -349,7 +349,7 @@ mod tests {
 	use super::*;
 	use super::super::determine_metered_blocks;
 
-	use parity_wasm::elements;
+	use tetsy_wasm::elements;
 	use binaryen::tools::translate_to_fuzz_mvp;
 	use rand::{thread_rng, RngCore};
 

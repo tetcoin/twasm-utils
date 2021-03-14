@@ -3,9 +3,9 @@
 #[macro_use]
 extern crate clap;
 extern crate glob;
-extern crate pwasm_utils as utils;
-extern crate parity_wasm;
-use pwasm_utils::logger;
+extern crate twasm_utils as utils;
+extern crate tetsy_wasm;
+use twasm_utils::logger;
 
 mod source;
 
@@ -13,7 +13,7 @@ use std::{fs, io};
 use std::path::PathBuf;
 
 use clap::{App, Arg};
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 use utils::{build, BuildError, SourceTarget, TargetRuntime};
 
 #[derive(Debug)]
@@ -83,8 +83,8 @@ fn do_main() -> Result<(), Error> {
 			.help("What runtime we are compiling to")
 			.long("target-runtime")
 			.takes_value(true)
-			.default_value("pwasm")
-			.possible_values(&["substrate", "pwasm"]))
+			.default_value("twasm")
+			.possible_values(&["substrate", "twasm"]))
 		.arg(Arg::with_name("skip_optimization")
 			.help("Skip symbol optimization step producing final wasm")
 			.long("skip-optimization"))
@@ -145,7 +145,7 @@ fn do_main() -> Result<(), Error> {
 
 	let path = wasm_path(&source_input);
 
-	let module = parity_wasm::deserialize_file(&path)
+	let module = tetsy_wasm::deserialize_file(&path)
 		.map_err(|e| Error::Decoding(e, path.to_string()))?;
 
 	let runtime_type_version = if let (Some(runtime_type), Some(runtime_version))
@@ -168,7 +168,7 @@ fn do_main() -> Result<(), Error> {
 		.unwrap_or_default();
 
 	let target_runtime = match matches.value_of("target-runtime").expect("target-runtime has a default value; qed") {
-		"pwasm" => TargetRuntime::pwasm(),
+		"twasm" => TargetRuntime::twasm(),
 		"substrate" => TargetRuntime::substrate(),
 		_ => unreachable!("all possible values are enumerated in clap config; qed"),
 	};
@@ -186,16 +186,16 @@ fn do_main() -> Result<(), Error> {
 	).map_err(Error::Build)?;
 
 	if let Some(save_raw_path) = matches.value_of("save_raw") {
-		parity_wasm::serialize_to_file(save_raw_path, module.clone()).map_err(Error::Encoding)?;
+		tetsy_wasm::serialize_to_file(save_raw_path, module.clone()).map_err(Error::Encoding)?;
 	}
 
 	if let Some(ctor_module) = ctor_module {
-		parity_wasm::serialize_to_file(
+		tetsy_wasm::serialize_to_file(
 			&path,
 			ctor_module,
 		).map_err(Error::Encoding)?;
 	} else {
-		parity_wasm::serialize_to_file(&path, module).map_err(Error::Encoding)?;
+		tetsy_wasm::serialize_to_file(&path, module).map_err(Error::Encoding)?;
 	}
 
 	Ok(())

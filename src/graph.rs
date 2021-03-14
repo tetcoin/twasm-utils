@@ -2,7 +2,7 @@
 
 #![warn(missing_docs)]
 
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 use super::ref_list::{RefList, EntryRef};
 use crate::std::{
 	vec::Vec,
@@ -208,7 +208,7 @@ pub struct Module {
 impl Module {
 
 	fn map_instructions(&self, instructions: &[elements::Instruction]) -> Vec<Instruction> {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 		instructions.iter().map(|instruction|  match instruction {
 			Call(func_idx) => Instruction::Call(self.funcs.clone_ref(*func_idx as usize)),
 			CallIndirect(type_idx, arg2) =>
@@ -225,7 +225,7 @@ impl Module {
 	}
 
 	fn generate_instructions(&self, instructions: &[Instruction]) -> Vec<elements::Instruction> {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 		instructions.iter().map(|instruction| match instruction {
 			Instruction::Call(func_ref) => Call(func_ref.order().expect("detached instruction!") as u32),
 			Instruction::CallIndirect(type_ref, arg2) => CallIndirect(type_ref.order().expect("detached instruction!") as u32, *arg2),
@@ -235,7 +235,7 @@ impl Module {
 		}).collect()
 	}
 
-	/// Initialize module from parity-wasm `Module`.
+	/// Initialize module from tetsy-wasm `Module`.
 	pub fn from_elements(module: &elements::Module) -> Result<Self, Error> {
 
 		let mut res = Module::default();
@@ -351,11 +351,11 @@ impl Module {
 						// 	SegmentLocation::WithIndex(element_segment.index(), Vec::new())
 						// };
 
-						// TODO: update parity-wasm and uncomment the above instead
+						// TODO: update tetsy-wasm and uncomment the above instead
 						let init_expr = element_segment
 							.offset()
 							.as_ref()
-							.expect("parity-wasm is compiled without bulk-memory operations")
+							.expect("tetsy-wasm is compiled without bulk-memory operations")
 							.code();
 						let location = SegmentLocation::Default(res.map_instructions(init_expr));
 
@@ -385,12 +385,12 @@ impl Module {
 				},
 				elements::Section::Data(data_section) => {
 					for data_segment in data_section.entries() {
-						// TODO: update parity-wasm and use the same logic as in
+						// TODO: update tetsy-wasm and use the same logic as in
 						// commented element segment branch
 						let init_expr = data_segment
 							.offset()
 							.as_ref()
-							.expect("parity-wasm is compiled without bulk-memory operations")
+							.expect("tetsy-wasm is compiled without bulk-memory operations")
 							.code();
 						let location = SegmentLocation::Default(res.map_instructions(init_expr));
 
@@ -758,15 +758,15 @@ fn custom_round(
 	}
 }
 
-/// New module from parity-wasm `Module`
+/// New module from tetsy-wasm `Module`
 pub fn parse(wasm: &[u8]) -> Result<Module, Error> {
-	Module::from_elements(&::parity_wasm::deserialize_buffer(wasm).map_err(Error::Format)?)
+	Module::from_elements(&::tetsy_wasm::deserialize_buffer(wasm).map_err(Error::Format)?)
 }
 
-/// Generate parity-wasm `Module`
+/// Generate tetsy-wasm `Module`
 pub fn generate(f: &Module) -> Result<Vec<u8>, Error> {
 	let pm = f.generate()?;
-	::parity_wasm::serialize(pm).map_err(Error::Format)
+	::tetsy_wasm::serialize(pm).map_err(Error::Format)
 }
 
 #[cfg(test)]
@@ -774,7 +774,7 @@ mod tests {
 
 	extern crate wabt;
 
-	use parity_wasm::elements;
+	use tetsy_wasm::elements;
 
 	fn load_sample(wat: &'static str) -> super::Module {
 		super::parse(&wabt::wat2wasm(wat).expect("faled to parse wat!")[..])

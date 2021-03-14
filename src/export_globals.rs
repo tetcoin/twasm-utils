@@ -1,4 +1,4 @@
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 use crate::optimizer::{global_section, export_section};
 
@@ -41,7 +41,7 @@ pub fn export_mutable_globals(
 mod tests {
 
 	use super::export_mutable_globals;
-	use parity_wasm::elements;
+	use tetsy_wasm::elements;
 
 	fn parse_wat(source: &str) -> elements::Module {
 		let module_bytes = wabt::Wat2Wasm::new()

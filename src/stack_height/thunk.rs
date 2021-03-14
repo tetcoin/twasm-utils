@@ -4,8 +4,8 @@ use crate::std::collections::{HashMap as Map};
 use crate::std::collections::{BTreeMap as Map};
 use crate::std::vec::Vec;
 
-use parity_wasm::elements::{self, FunctionType, Internal};
-use parity_wasm::builder;
+use tetsy_wasm::elements::{self, FunctionType, Internal};
+use tetsy_wasm::builder;
 
 use super::{resolve_func_type, Context, Error};
 

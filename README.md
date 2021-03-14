@@ -1,15 +1,15 @@
-# pwasm-utils
+# twasm-utils
 
-[![Build Status](https://travis-ci.org/paritytech/wasm-utils.svg?branch=master)](https://travis-ci.org/paritytech/wasm-utils)
+[![Build Status](https://travis-ci.org/tetcoin/twasm-utils.svg?branch=master)](https://travis-ci.org/tetcoin/twasm-utils)
 
-A collection of WASM utilities used in pwasm-ethereum and substrate contract development.
+A collection of WASM utilities used in twasm-ethereum and substrate contract development.
 
-This repository contains the package `pwasm-utils` which consists of a library crate
+This repository contains the package `twasm-utils` which consists of a library crate
 and a collection of cli binaries that make use of this library.
 
 ## Installation of cli tools
 ```
-cargo install pwasm-utils --features cli
+cargo install twasm-utils --features cli
 ```
 
 This will install the following binaries:
@@ -31,7 +31,7 @@ This will optimize WASM symbols tree to leave only those elements that are used 
 
 ## Gas counter (wasm-gas)
 
-For development puposes, raw WASM contract can be injected with gas counters (the same way as it done by pwasm-ethereum/substrate runtime when running contracts)
+For development puposes, raw WASM contract can be injected with gas counters (the same way as it done by twasm-ethereum/substrate runtime when running contracts)
 
 ```
 wasm-gas <input_wasm_binary.wasm> <output_wasm_binary.wasm>

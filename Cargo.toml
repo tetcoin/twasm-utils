@@ -1,13 +1,16 @@
 [package]
-name = "pwasm-utils"
+name = "twasm-utils"
 version = "0.16.0"
-edition = "2018"
 authors = ["Nikolay Volf <nikvolf@gmail.com>", "Sergey Pepyakin <s.pepyakin@gmail.com>"]
+description = "Collection of command-line utilities and corresponding Rust api for producing twasm-compatible executables"
+keywords = ["tetcoin", "tetcore", "crypto", "blockchain", "framework"]
+categories = ["cryptography::cryptocurrencies"]
+homepage = "https://core.tetcoin.org"
+repository = "https://github.com/tetcoin/twasm-utils"
 license = "MIT/Apache-2.0"
+edition = "2018"
 readme = "README.md"
-description = "Collection of command-line utilities and corresponding Rust api for producing pwasm-compatible executables"
-keywords = ["wasm", "webassembly", "pwasm"]
-repository = "https://github.com/paritytech/wasm-utils"
+
 
 [[bin]]
 name = "wasm-prune"
@@ -46,8 +49,8 @@ required-features = ["cli"]
 
 [dependencies]
 # If you add the feature "bulk", make sure you fixed all expects that say
-# "parity-wasm is compiled without bulk-memory operations"
-parity-wasm = { version = "0.41.0", default-features = false }
+# "tetsy-wasm is compiled without bulk-memory operations"
+tetsy-wasm = { version = "0.41.0", default-features = false }
 log = { version = "0.4", default-features = false }
 byteorder = { version = "1", default-features = false }
 
@@ -67,7 +70,7 @@ binaryen = "0.8"
 
 [features]
 default = ["std"]
-std = ["parity-wasm/std", "log/std", "byteorder/std"]
+std = ["tetsy-wasm/std", "log/std", "byteorder/std"]
 cli = [
   "std",
   "glob",

@@ -6,7 +6,7 @@ use crate::std::collections::BTreeMap as Map;
 use crate::std::num::NonZeroU32;
 use crate::std::str::FromStr;
 
-use parity_wasm::elements;
+use tetsy_wasm::elements;
 
 pub struct UnknownInstruction;
 
@@ -101,7 +101,7 @@ impl FromStr for InstructionType {
 
 impl InstructionType {
 	pub fn op(instruction: &elements::Instruction) -> Self {
-		use parity_wasm::elements::Instruction::*;
+		use tetsy_wasm::elements::Instruction::*;
 
 		match *instruction {
 			Unreachable => InstructionType::Unreachable,
